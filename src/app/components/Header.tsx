@@ -1,0 +1,25 @@
+// app/components/Header.jsx
+import {  withAuth, getSignInUrl } from '@workos-inc/authkit-nextjs';
+import Link from 'next/link';
+
+export default async function Header() {
+  const { user } = await withAuth();
+  const signInUrl = await getSignInUrl();
+
+  return (
+    <header>
+      <nav className="flex gap-4">
+        <Link href="/">Home</Link>
+        {!user && (
+          <Link className="bg-gray-200 px-2" href={signInUrl}>Login</Link>
+        ) }
+        {user && (
+          <button className="bg-gray-200">
+            Logout
+          </button>
+        ) } 
+        <Link className="bg-blue-600 text-white" href={'/new-listing'}>Post a Job</Link>
+      </nav>
+    </header>
+  );
+}

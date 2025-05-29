@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import Header from "@/app/components/Header";
+import Jobs from "@/app/components/Jobs";
+// import Here from "@/app/components/Here";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +27,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <main className="py-4 px-6 max-w-2xl mx-auto">
+          <Header/>
+          {/* <Here/> */}
+          <Jobs/>
+          {children}
+          <footer className="py-8 text-gray-500">
+            Job Bridge &copy; 2025 - All rights reservered
+          </footer>
+        </main>
       </body>
     </html>
   );
