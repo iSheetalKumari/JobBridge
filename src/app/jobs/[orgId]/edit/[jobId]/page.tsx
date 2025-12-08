@@ -1,8 +1,8 @@
 import JobForm from "@/app/components/JobForm";
 import {JobModel} from "@/models/Job";
 import {withAuth} from "@workos-inc/authkit-nextjs";
-import {WorkOS} from "@workos-inc/node";
-import mongoose from "mongoose";
+import getWorkos from "@/lib/workos";
+import connectToDatabase from "@/lib/mongo";
 
 type PageProps = {
   params: {
@@ -12,13 +12,13 @@ type PageProps = {
 
 export default async function EditJobPage(pageProps:PageProps) {
   const jobId = pageProps.params.jobId;
-  await mongoose.connect(process.env.MONGO_URI as string);
-  const jobDoc = JSON.parse(JSON.stringify(await JobModel.findById(jobId)));
+  await connectToDatabase();
+  const jobDoc = await JobModel.findById(jobId).lean();
   if (!jobDoc) {
     return 'Not found';
   }
   const {user} = await withAuth();
-  const workos = new WorkOS(process.env.WORKOS_API_KEY);
+  const workos = getWorkos();
   if (!user) {
     return 'You need to login';
   }

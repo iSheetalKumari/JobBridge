@@ -28,10 +28,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <main className="py-4 px-6 max-w-2xl mx-auto">
-          <Header/>
-          {/* <Here/> */}
-          <Jobs/>
+        <main className="py-6 px-4 max-w-5xl mx-auto">
+          <Header />
           {children}
           <footer className="py-8 text-gray-500">
             Job Bridge &copy; 2025 - All rights reservered

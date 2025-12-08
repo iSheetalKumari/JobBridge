@@ -1,25 +1,45 @@
 // app/components/Header.jsx
-import {  withAuth, getSignInUrl } from '@workos-inc/authkit-nextjs';
+import { withAuth, getSignInUrl, getSignUpUrl } from '@workos-inc/authkit-nextjs';
 import Link from 'next/link';
+import HeaderMenu from './HeaderMenu';
 
 export default async function Header() {
-  const { user } = await withAuth();
-  const signInUrl = await getSignInUrl();
+  let user = null;
+  let signInUrl = '/login';
+  let signUpUrl = '/signup';
+
+  try {
+    const auth = await withAuth();
+    user = auth.user;
+    signInUrl = await getSignInUrl();
+    try {
+      signUpUrl = await getSignUpUrl();
+    } catch (e) {
+      /* non-fatal */
+    }
+  } catch (error) {
+    // Not authenticated or middleware not configured for this path
+    console.debug('Auth not available in Header');
+  }
 
   return (
-    <header>
-      <nav className="flex gap-4">
-        <Link href="/">Home</Link>
-        {!user && (
-          <Link className="bg-gray-200 px-2" href={signInUrl}>Login</Link>
-        ) }
-        {user && (
-          <button className="bg-gray-200">
-            Logout
-          </button>
-        ) } 
-        <Link className="bg-blue-600 text-white" href={'/new-listing'}>Post a Job</Link>
-      </nav>
+    <header className="border-b border-gray-200 bg-white shadow-sm">
+      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+        <div className="flex items-center gap-8">
+          <Link href="/" className="text-2xl font-bold text-blue-600">JobBridge</Link>
+          <nav className="hidden sm:flex gap-6 text-sm text-gray-700">
+            <Link href="/" className="hover:text-blue-600 font-medium transition">Home</Link>
+            <Link href="/jobs" className="hover:text-blue-600 font-medium transition">Browse Jobs</Link>
+          </nav>
+        </div>
+
+        <div className="flex items-center gap-4">
+          {!user ? (
+            <Link href={signInUrl} className="text-sm text-gray-700 px-3 py-1 rounded-md hover:bg-gray-100 transition">Login</Link>
+          ) : null}
+          <HeaderMenu user={user} signInUrl={signInUrl} signUpUrl={signUpUrl} />
+        </div>
+      </div>
     </header>
   );
 }

@@ -1,11 +1,10 @@
-'use server';
+"use server";
 
 import {JobModel} from "@/models/Job";
-import mongoose from "mongoose";
+import connectToDatabase from "@/lib/mongo";
 import {revalidatePath} from "next/cache";
-
 export async function saveJobAction(formData: FormData) {
-  await mongoose.connect(process.env.MONGO_URI as string);
+  await connectToDatabase();
   const {id, ...jobData} = Object.fromEntries(formData);
   const jobDoc = (id)
     ? await JobModel.findByIdAndUpdate(id, jobData)

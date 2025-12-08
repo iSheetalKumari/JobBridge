@@ -1,5 +1,5 @@
 import {JobModel} from "@/models/Job";
-import mongoose from "mongoose";
+import connectToDatabase from "@/lib/mongo";
 import Image from "next/image";
 
 type PageProps = {
@@ -10,8 +10,8 @@ type PageProps = {
 
 export default async function SingleJobPage(props:PageProps) {
   const jobId = props.params.jobId;
-  await mongoose.connect(process.env.MONGO_URI as string);
-  const jobDoc = await JobModel.findById(jobId);
+  await connectToDatabase();
+  const jobDoc = await JobModel.findById(jobId).lean();
   return (
     <div className="container mt-8 my-6">
       <div className="sm:flex">

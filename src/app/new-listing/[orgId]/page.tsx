@@ -1,6 +1,6 @@
 import JobForm from "@/app/components/JobForm";
 import {withAuth} from "@workos-inc/authkit-nextjs";
-import {WorkOS} from "@workos-inc/node";
+import getWorkos from "@/lib/workos";
 
 type PageProps = {
   params: {
@@ -10,7 +10,7 @@ type PageProps = {
 
 export default async function NewListingForOrgPage(props:PageProps) {
   const {user} = await withAuth();
-  const workos = new WorkOS(process.env.WORKOS_API_KEY);
+  const workos = getWorkos();
   if (!user) {
     return 'Please log in';
   }

@@ -2,11 +2,11 @@
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { withAuth } from "@workos-inc/authkit-nextjs";
-import { WorkOS } from "@workos-inc/node";
+import getWorkos from "@/lib/workos";
 import Link from "next/link";
 
 export default async function NewListingPage() {
-  const workos = new WorkOS(process.env.WORKOS_API_KEY!);
+  const workos = getWorkos();
   const { user } = await withAuth();
 
   if (!user) {
