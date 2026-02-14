@@ -1,5 +1,5 @@
 import connectToDatabase from "@/lib/mongo";
-import { JobModel } from "@/models/job";
+import { JobModel } from "@/models/Job";
 
 export default async function JobPage({ params }: { params: { id: string } }) {
   try {

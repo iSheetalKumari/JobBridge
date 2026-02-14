@@ -1,5 +1,5 @@
 import connectToDatabase from "@/lib/mongo";
-import { JobModel } from "@/models/job";
+import { JobModel } from "@/models/Job";
 import Link from "next/link";
 
 export default async function RecruiterDashboard() {

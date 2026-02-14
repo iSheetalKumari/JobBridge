@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongo";
-import { JobModel } from "@/models/job";
+import { JobModel } from "@/models/Job";
 
 export async function GET() {
   try {
