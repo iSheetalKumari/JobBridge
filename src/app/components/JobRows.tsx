@@ -1,7 +1,25 @@
 "use client";
 import JobCard from "./JobCard";
 
-export default function JobRows({ job }: any) {
+interface JobData {
+  _id?: string;
+  id?: string;
+  title?: string;
+  jobTitle?: string;
+  companyName?: string;
+  orgName?: string;
+  org?: string;
+  location?: string;
+  city?: string;
+  state?: string;
+  description?: string;
+  salary?: string | number;
+  featured?: boolean;
+  jobIcon?: string;
+  [key: string]: unknown;
+}
+
+export default function JobRows({ job }: { job: JobData }) {
   // transform job field names to match JobCard props if needed
   const jobData = {
     _id: job._id || job.id,

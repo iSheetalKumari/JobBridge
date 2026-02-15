@@ -5,14 +5,13 @@ import HeaderMenu from './HeaderMenu';
 export default async function Header() {
   let user = null;
   let signInUrl = '/login';
-  let signUpUrl = '/signup';
 
   try {
     const auth = await withAuth();
     user = auth.user;
     signInUrl = await getSignInUrl();
     try {
-      signUpUrl = await getSignUpUrl();
+      await getSignUpUrl();
     } catch {
       console.debug('Sign-up URL unavailable');
     }

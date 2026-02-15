@@ -2,6 +2,8 @@ import connectToDatabase from "@/lib/mongo";
 import { JobModel } from "@/models/Job";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function RecruiterDashboard() {
   await connectToDatabase();
   const jobs = await JobModel.find().sort({ createdAt: -1 }).lean();
@@ -12,8 +14,8 @@ export default async function RecruiterDashboard() {
         <Link href="/recruiter/new" className="bg-indigo-600 text-white px-4 py-2 rounded">Post a Job</Link>
       </div>
       <div className="grid gap-3">
-        {jobs.map((j: any) => (
-          <div key={j._id} className="border p-4 rounded flex justify-between items-center">
+        {jobs.map((j: typeof jobs[number]) => (
+          <div key={String(j._id)} className="border p-4 rounded flex justify-between items-center">
             <div>
               <div className="font-semibold">{j.title}</div>
               <div className="text-sm text-gray-600">{j.companyName || j.orgName}</div>

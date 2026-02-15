@@ -1,11 +1,26 @@
 "use client";
 import Link from "next/link";
 
-export default function JobCard({ job }: { job: any }) {
+interface JobData {
+  _id?: string;
+  id?: string;
+  jobIcon?: string;
+  title?: string;
+  companyName?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  salary?: string | number;
+  description?: string;
+  featured?: boolean;
+}
+
+export default function JobCard({ job }: { job: JobData }) {
   return (
     <article className="bg-white p-5 rounded-xl shadow-sm hover:shadow-md transition">
       <div className="flex items-start gap-4">
         <div className="w-14 h-14 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           {job.jobIcon ? <img src={job.jobIcon} alt="logo" className="w-full h-full object-contain" /> : <span className="text-lg font-bold text-gray-600">{(job.companyName||job.title||"J").charAt(0)}</span>}
         </div>
 

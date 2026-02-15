@@ -4,7 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import { handleSignOut } from "../actions";
 
-export default function HeaderMenu({ user }: { user: any }) {
+interface User {
+  firstName?: string | null;
+  email?: string | null;
+}
+
+export default function HeaderMenu({ user }: { user: User }) {
   const [open, setOpen] = useState(false);
 
   return (

@@ -3,15 +3,19 @@ import connectToDatabase from "@/lib/mongo";
 import Image from "next/image";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     jobId: string;
-  };
+  }>;
 };
 
 export default async function SingleJobPage(props:PageProps) {
-  const jobId = props.params.jobId;
+  const { jobId } = await props.params;
   await connectToDatabase();
-  const jobDoc = await JobModel.findById(jobId).lean();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const jobDoc = await JobModel.findById(jobId).lean() as any;
+  if (!jobDoc) {
+    return <div className="container mt-8">Job not found</div>;
+  }
   return (
     <div className="container mt-8 my-6">
       <div className="sm:flex">

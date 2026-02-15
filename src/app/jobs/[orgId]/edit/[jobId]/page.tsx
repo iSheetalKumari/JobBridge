@@ -5,15 +5,16 @@ import getWorkos from "@/lib/workos";
 import connectToDatabase from "@/lib/mongo";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     jobId: string;
-  };
+  }>;
 };
 
 export default async function EditJobPage(pageProps:PageProps) {
-  const jobId = pageProps.params.jobId;
+  const { jobId } = await pageProps.params;
   await connectToDatabase();
-  const jobDoc = await JobModel.findById(jobId).lean();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const jobDoc = await JobModel.findById(jobId).lean() as any;
   if (!jobDoc) {
     return 'Not found';
   }

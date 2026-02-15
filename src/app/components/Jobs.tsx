@@ -1,8 +1,25 @@
 import JobRows from "./JobRows";
-import Link from 'next/link';
+
+interface JobData {
+  _id?: string;
+  id?: string;
+  title?: string;
+  jobTitle?: string;
+  companyName?: string;
+  orgName?: string;
+  org?: string;
+  location?: string;
+  city?: string;
+  state?: string;
+  description?: string;
+  salary?: string | number;
+  featured?: boolean;
+  jobIcon?: string;
+  [key: string]: unknown;
+}
 
 type JobsProps = {
-        jobs?: any[];
+        jobs?: JobData[];
         header?: string;
 };
 
@@ -19,7 +36,7 @@ export default function Jobs({ jobs = [], header = "Recent Jobs" }: JobsProps) {
                                 </div>
                         ) : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        {jobs.map((job: any) => (
+                                        {jobs.map((job: JobData) => (
                                                 <JobRows key={job._id || job.id || Math.random()} job={job} />
                                         ))}
                                 </div>

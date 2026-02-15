@@ -7,11 +7,11 @@ import { addOrgAndUserData } from "@/lib/addOrgAndUserData";
 import { withAuth } from "@workos-inc/authkit-nextjs"; 
 
 type PageProps = {
-  params: { orgId: string }; // ✅ correct type
+  params: Promise<{ orgId: string }>; // ✅ correct type
 };
 
 export default async function CompanyJobsPage({ params }: PageProps) {
-  const { orgId } = params;
+  const { orgId } = await params;
 
   try {
     const { user } = await withAuth(); // ✅ server-side auth

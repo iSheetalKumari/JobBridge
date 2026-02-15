@@ -8,8 +8,18 @@ const DUMMY = [
   { _id: "3", title: "Data Analyst", companyName: "Insight Labs", city: "Pune", salary: "6-9 LPA", description: "SQL + Python + dashboards.", featured: true }
 ];
 
+interface Job {
+  _id: string;
+  title: string;
+  companyName: string;
+  city: string;
+  salary: string;
+  description: string;
+  featured?: boolean;
+}
+
 export default function FeaturedJobs() {
-  const [jobs, setJobs] = useState<any[] | null>(null);
+  const [jobs, setJobs] = useState<Job[] | null>(null);
   const [loading, setLoading] = useState(false);
 
   async function load() {
@@ -23,7 +33,7 @@ export default function FeaturedJobs() {
         // fallback to dummy data for frontend preview
         setJobs(DUMMY);
       }
-    } catch (err) {
+    } catch {
       setJobs(DUMMY);
     } finally { setLoading(false); }
   }

@@ -3,9 +3,9 @@ import {withAuth} from "@workos-inc/authkit-nextjs";
 import getWorkos from "@/lib/workos";
 
 type PageProps = {
-  params: {
+  params: Promise<{
     orgId: string;
-  }
+  }>;
 };
 
 export default async function NewListingForOrgPage(props:PageProps) {
@@ -14,7 +14,7 @@ export default async function NewListingForOrgPage(props:PageProps) {
   if (!user) {
     return 'Please log in';
   }
-  const orgId = props.params.orgId;
+  const { orgId } = await props.params;
   const oms = await workos.userManagement.listOrganizationMemberships({userId:user.id,organizationId:orgId});
   const hasAccess = oms.data.length > 0;
   if (!hasAccess) {

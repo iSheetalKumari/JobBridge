@@ -1,6 +1,13 @@
 import JobCard from "./JobCard";
 
-export default function JobList({ jobs }: { jobs: any[] }) {
+interface JobData {
+  _id?: string;
+  id?: string;
+  title: string;
+  companyName?: string;
+}
+
+export default function JobList({ jobs }: { jobs: JobData[] }) {
   if (!jobs || jobs.length === 0) {
     return <div className="p-6 text-center text-gray-500">No jobs found.</div>;
   }

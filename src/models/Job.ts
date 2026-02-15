@@ -12,6 +12,10 @@ export interface Job {
   remote?: string;
   salary?: string;
   jobIcon?: string;
+  contactPhoto?: string;
+  contactName?: string;
+  contactPhone?: string;
+  contactEmail?: string;
   orgId?: string;
   createdBy?: string;
   featured?: boolean;
@@ -33,6 +37,10 @@ const JobSchema = new Schema<Job>(
     remote: String,
     salary: String,
     jobIcon: String,
+    contactPhoto: String,
+    contactName: String,
+    contactPhone: String,
+    contactEmail: String,
     // Note: Changed to String if you're storing WorkOS Org IDs 
     // or keep as ObjectId if referencing a Mongo Collection
     orgId: { type: String }, 
