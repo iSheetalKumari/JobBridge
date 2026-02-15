@@ -2,7 +2,7 @@ import { WorkOS } from "@workos-inc/node";
 
 let workos: WorkOS | null = null;
 
-export function getWorkos() {
+export default function getWorkos() {
   if (!process.env.WORKOS_API_KEY) {
     throw new Error("WORKOS_API_KEY is missing");
   }

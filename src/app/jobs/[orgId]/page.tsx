@@ -2,19 +2,19 @@ import React from "react";
 import { notFound } from "next/navigation";
 import Jobs from "@/app/components/Jobs";
 import { JobModel, Job } from "@/models/Job";
-import { getWorkos } from "@/lib/workos";
+import  getWorkos  from "@/lib/workos"; 
 import { addOrgAndUserData } from "@/lib/addOrgAndUserData";
-import { getUser } from "@workos-inc/authkit-nextjs";
+import { withAuth } from "@workos-inc/authkit-nextjs"; 
 
 type PageProps = {
-  params: Promise<{ orgId: string }>;
+  params: { orgId: string }; // ✅ correct type
 };
 
 export default async function CompanyJobsPage({ params }: PageProps) {
-  const { orgId } = await params;
+  const { orgId } = params;
 
   try {
-    const { user } = await getUser();
+    const { user } = await withAuth(); // ✅ server-side auth
 
     if (!user) {
       return (
@@ -25,12 +25,11 @@ export default async function CompanyJobsPage({ params }: PageProps) {
       );
     }
 
-    const workos = getWorkos();
+    const workos = getWorkos(); // ✅ named import
 
-    // Fetching data
     const [organization, jobsRaw] = await Promise.all([
       workos.organizations.getOrganization(orgId),
-      JobModel.find({ orgId }).sort({ createdAt: -1 }).limit(20).lean()
+      JobModel.find({ orgId }).sort({ createdAt: -1 }).limit(20).lean(),
     ]);
 
     if (!organization) return notFound();
@@ -42,13 +41,11 @@ export default async function CompanyJobsPage({ params }: PageProps) {
 
     if (memberships.data.length === 0) return notFound();
 
-    /* --- THE FIX FOR THE ERROR --- */
-    // We treat the raw data as 'any' first to avoid the _id red line, 
-    // then convert it to the Job type.
-    const jobs = (jobsRaw || []).map((job: any) => ({
-      ...job,
-      _id: job._id.toString(),
-    })) as unknown as Job[];
+  const jobs = (jobsRaw || []).map((job: unknown) => {
+    const j = job as { _id: { toString: () => string } } & Job;
+    return { ...j, _id: j._id.toString() };
+  });
+
 
     const enrichedJobs = await addOrgAndUserData(jobs, user);
 
