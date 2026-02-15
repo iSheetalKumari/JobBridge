@@ -1,6 +1,7 @@
 import { Schema, model, models } from "mongoose";
 
 export interface Job {
+  _id: string;      
   title: string;
   description?: string;
   companyName?: string;
@@ -15,6 +16,9 @@ export interface Job {
   createdBy?: string;
   featured?: boolean;
   active?: boolean;
+  userId: string;
+  createdAt: string; 
+  updatedAt: string;
 }
 
 const JobSchema = new Schema<Job>(
@@ -29,8 +33,10 @@ const JobSchema = new Schema<Job>(
     remote: String,
     salary: String,
     jobIcon: String,
-    orgId: { type: Schema.Types.ObjectId, ref: "Company" },
-    createdBy: { type: Schema.Types.ObjectId, ref: "User" },
+    // Note: Changed to String if you're storing WorkOS Org IDs 
+    // or keep as ObjectId if referencing a Mongo Collection
+    orgId: { type: String }, 
+    createdBy: { type: String }, 
     featured: { type: Boolean, default: false },
     active: { type: Boolean, default: true },
   },

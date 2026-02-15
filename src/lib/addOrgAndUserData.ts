@@ -6,7 +6,7 @@ import { Job } from "@/models/Job";
 export function addOrgAndUserData(
   jobs: Job[],
   user: { id?: string } | null
-): (Job & { isOwner: boolean })[] {
+) {
   return jobs.map((job) => ({
     ...job,
     isOwner: Boolean(user?.id && job.userId === user.id),
