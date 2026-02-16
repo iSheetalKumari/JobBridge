@@ -1,6 +1,6 @@
 "use server";
 
-import getWorkos from "@/lib/workos";
+import {getWorkos} from "@/lib/workos";
 import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
 

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import getWorkos from "@/lib/workos";
+import {getWorkos} from "@/lib/workos";
 
 export async function GET() {
   const workos = getWorkos();
